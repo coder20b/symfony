@@ -32,6 +32,7 @@ class ContactController extends AbstractController
     {
         // FORMULAIRE DE CREATION DE CONTACT
         // ENCORE UN AUTRE COMMENTAIRE
+        // AJOUTER DU CODE DE DEV1
         
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
