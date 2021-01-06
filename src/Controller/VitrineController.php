@@ -19,6 +19,7 @@ class VitrineController extends AbstractController
      */    
     function accueil ()
     {
+        // DEV2 AJOUTE SON CODE...
         return $this->render("vitrine/index.html.twig");
     }
 
