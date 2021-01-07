@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+// NE PAS OUBLIER LES use POUR LES CONTRAINTES
+use Symfony\Component\Validator\Constraints as Assert;
+
+
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
  */
@@ -24,6 +28,9 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *     message = "Cet email '{{ value }}' est invalide."
+     * )     
      */
     private $email;
 

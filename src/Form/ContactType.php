@@ -11,11 +11,12 @@ class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // ICI ON DEFINIT LES CHAMPS DU FORMULAIRE
         $builder
-            ->add('nom')
             ->add('email')
+            ->add('nom')
             ->add('message')
-            ->add('dateMessage')
+            // ->add('dateMessage')
         ;
     }
 

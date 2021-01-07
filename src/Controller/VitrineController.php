@@ -36,15 +36,32 @@ class VitrineController extends AbstractController
      */    
     function contact (Request $request): Response
     {
+        // INJECTION DE DEPENDANCE
+        // => SYMFONY NOUS FOURNIT L'OBJET $request
+        // => $request BOITE QUI CONTIENT LES INFOS DE FORMULAIRE ($_GET, $_POST, $_REQUEST)
+
+        // ON CREE UN OBJET POUR STOCKER LES INFOS DU FORMULAIRE
         $contact = new Contact();
+
+        // ON CREE LE FORMULAIRE
         $form = $this->createForm(ContactType::class, $contact);
+        // ON RECUPERE LES INFOS ENVOYEES PAR LE FORMULAIRE
         $form->handleRequest($request);
 
+        // ON VALIDE LES INFOS DU FORMULAIRE
+        $messageConfirmation = "merci de remplir le formulaire";
         if ($form->isSubmitted() && $form->isValid()) {
+            // IL FAUT COMPLETER LES INFOS MANQUANTES
+            $contact->setDateMessage(new \DateTime());
+
+            // SI LES INFOS SONT VALIDES
+            // => ALORS ON AJOUTE UNE LIGNE DANS LA TABLE SQL
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($contact);
             $entityManager->flush();
 
+            $messageConfirmation = "message bien reçu. Nous vous répondrons rapidement.";
+            
             // return $this->redirectToRoute('contact_index');
         }
 
@@ -53,6 +70,10 @@ class VitrineController extends AbstractController
         // templates/vitrine/contact/html.twig
         // (DANS VSCODE AJOUTER UNE EXTENSION POUR LES FICHIERS .twig)
         return $this->render("vitrine/contact.html.twig", [
+            // CLE => VARIABLE TWIG
+            // VALEUR => VALEUR DE LA VARIABLE TWIG
+            'info1'     => "COUCOU",
+            'messageConfirmation'   => $messageConfirmation,
             'contact'   => $contact,
             'form'      => $form->createView(),
         ]);
