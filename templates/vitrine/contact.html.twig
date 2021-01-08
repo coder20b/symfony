@@ -11,12 +11,18 @@
 
 {% block body %}
 
-<section>
-    <h2>MA SECTION POUR MA PAGE CONTACT</h2>
-    <h3>affichage de la variable info1: {{ info1 }}</h3>
-    {{ include('contact/_form.html.twig') }}
-    <h4>{{ messageConfirmation }}</h4>
-    <img class="img-fluid" src="{{ asset('assets/img/article3.jpg') }}" alt="article2">
+<section class="container">
+    <h2>formulaire de contact</h2>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            {{ include('contact/_form.html.twig') }}
+            <strong>{{ messageConfirmation }}</strong>
+        </div>
+        <div class="col-12 col-md-6">
+            <img class="img-fluid" src="{{ asset('assets/img/article3.jpg') }}" alt="article2">
+            <strong>affichage de la variable info1: {{ info1 }}</strong>
+        </div>
+    </div>
 </section>
 
 {% endblock %}
