@@ -32,6 +32,14 @@ class VitrineController extends AbstractController
     }
 
     /**
+     * @Route("/annonces", name="annonces")
+     */    
+    function annonces ()
+    {
+        return $this->render("vitrine/annonces.html.twig");
+    }
+
+    /**
      * @Route("/contact", name="contact", methods={"GET","POST"})
      */    
     function contact (Request $request): Response
