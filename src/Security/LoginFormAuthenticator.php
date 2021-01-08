@@ -31,12 +31,17 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     private $csrfTokenManager;
     private $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    private $security;
+
+    public function __construct(Security $security, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+
+        $this->security = $security;
+
     }
 
     public function supports(Request $request)
@@ -92,6 +97,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        // https://symfony.com/doc/current/security.html#b-fetching-the-user-from-a-service
+        $user = $this->security->getUser();
+
+        $routeRedirect = "accueil";
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $routeRedirect = "annonce_index";
+        }
+        // ... AJOUTER ROLES EN PLUS
+        
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
@@ -99,7 +113,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
         // TEMPORAIRE: A MODIFIER...
-        return new RedirectResponse($this->urlGenerator->generate('accueil'));
+        return new RedirectResponse($this->urlGenerator->generate($routeRedirect));
     }
 
     protected function getLoginUrl()
