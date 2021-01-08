@@ -22,6 +22,12 @@
                     <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">contact</a></li>
                 </ul>        
             </nav>
+            <nav class="d-flex justify-content-center">
+                <ul class="nav btn-group btn-group-sm">
+                    <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ path('app_register') }}">créez votre compte</a></li>
+                    <li class="nav-item"><a class="btn btn-success btn-sm" href="{{ path('app_login') }}">connexion</a></li>
+                </ul>        
+            </nav>
         </header>
         <main class="container pt-3 pb-5">
         {% block body %}
