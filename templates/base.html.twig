@@ -10,28 +10,32 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <header class="container">
-            <h1>MON SITE DE PETITES ANNONCES</h1>
-            <nav>
-                <a href="{{ path('accueil') }}">accueil</a>
-                <a href="{{ path('annonces') }}">annonces</a>
-                <a href="{{ path('galerie') }}">galerie</a>
-                <a href="{{ path('contact') }}">contact</a>
+        <header class="container d-flex justify-content-between p-5">
+            <h1>Mes petites annonces</h1>
+            <nav class="d-flex justify-content-center">
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ path('accueil') }}">accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('annonces') }}">annonces</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('galerie') }}">galerie</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">contact</a></li>
+                </ul>        
             </nav>
         </header>
-        <main class="container">
+        <main class="container mt-3 mb-5">
         {% block body %}
             CONTENU PAR DEFAUT
         {% endblock %}
         </main>
-        <footer class="container">
+        <footer class="container p-5">
             <p>tous droits réservés</p>
-            <nav>
-                <a href="{{ path('app_register') }}">création compte</a>
-                <a href="{{ path('app_login') }}">login</a>
-                <a href="{{ path('annonce_index') }}">admin annonce</a>
-                <a href="{{ path('contact_index') }}">admin contact</a>
-                <a href="{{ path('app_logout') }}">logout</a>
+            <nav class="d-flex justify-content-center">
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">création compte</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('annonce_index') }}">admin annonce</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('contact_index') }}">admin contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">logout</a></li>
+                </ul>        
             </nav>
         </footer>
 
