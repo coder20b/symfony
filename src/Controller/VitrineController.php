@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Contact;
 use App\Form\ContactType;
 
+// POUR AFFICHER LA LISTE DES ANNONCES
+use App\Repository\AnnonceRepository;
+
+
 // POUR UTILISER TWIG ON CREE UN HERITAGE DE CLASSE 
 // AVEC LA CLASSE PARENTE AbstractController
 class VitrineController extends AbstractController
@@ -32,11 +36,15 @@ class VitrineController extends AbstractController
     }
 
     /**
-     * @Route("/annonces", name="annonces")
+     * @Route("/annonces", name="annonces", methods={"GET"})
      */    
-    function annonces ()
+    function annonces (AnnonceRepository $annonceRepository): Response
     {
-        return $this->render("vitrine/annonces.html.twig");
+        // ON RECUPERE LA LISTE DES ANNONCES MAIS ON N'AFFICHE PAS LA LISTE
+        // ON TRANSMET A TWIG LA LISTE DANS UNE VARIABLE annonces
+        return $this->render("vitrine/annonces.html.twig", [
+            'annonces' => $annonceRepository->findAll(),
+        ]);
     }
 
     /**

@@ -13,6 +13,25 @@
 
 <section>
     <h2>MA SECTION POUR AFFICHER LA LISTE DES ANNONCES</h2>
+
+    <div class="row">
+        {% for annonce in annonces %}
+            <article class="col-4">
+                <div>{{ annonce.id }}</div>
+                <h3>{{ annonce.titre }}</h3>
+                <div>{{ annonce.url }}</div>
+                <p>{{ annonce.description }}</p>
+                <div>{{ annonce.photo }}</div>
+                <div>{{ annonce.categorie }}</div>
+                <div>{{ annonce.datePublication ? annonce.datePublication|date('Y-m-d H:i:s') : '' }}</div>
+            </article>
+        {% else %}
+            <article>
+                <td colspan="8">no records found</td>
+            </article>
+        {% endfor %}
+    </div>
+
     <img src="{{ asset('assets/img/article2.jpg') }}" alt="article2">
 </section>
 
