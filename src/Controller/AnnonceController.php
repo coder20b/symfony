@@ -31,6 +31,8 @@ class AnnonceController extends AbstractController
     public function new(Request $request): Response
     {
         $annonce = new Annonce();
+        $annonce->setDatePublication(new \DateTime());
+
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
 

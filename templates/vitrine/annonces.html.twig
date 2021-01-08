@@ -12,6 +12,11 @@
 {% block body %}
 
 <section>
+    <h4>utilisateur connecté</h4>
+    <div>email: {{ app.user.email ?? 'non connecté'}}</div>
+    <div>id: {{ app.user.id ?? 'non connecté'}}</div>
+</section>
+<section>
     <h2>MA SECTION POUR AFFICHER LA LISTE DES ANNONCES</h2>
 
     <div class="row">
@@ -19,6 +24,7 @@
             <article class="col-4">
                 <div>{{ annonce.id }}</div>
                 <h3>{{ annonce.titre }}</h3>
+                <h4>publié par: {{ annonce.user.email ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h4>
                 <div>{{ annonce.url }}</div>
                 <p>{{ annonce.description }}</p>
                 <div>{{ annonce.photo }}</div>

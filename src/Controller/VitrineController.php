@@ -40,10 +40,22 @@ class VitrineController extends AbstractController
      */    
     function annonces (AnnonceRepository $annonceRepository): Response
     {
+        // POUR RECUPERER L'UTILISATEUR CONNECTE
+        $userConnecte = $this->getUser();
+        dump($userConnecte);        // DEBUG TRES UTILE
+        
         // ON RECUPERE LA LISTE DES ANNONCES MAIS ON N'AFFICHE PAS LA LISTE
         // ON TRANSMET A TWIG LA LISTE DANS UNE VARIABLE annonces
+        // https://symfony.com/doc/current/doctrine.html#fetching-objects-from-the-database
+        // => POUR TRIER ON VA UTILISER findBy
+
+        $listeAnnonce = $annonceRepository->findBy(
+            [],                                     // PAS DE FILTRE SUR LA CLAUSE WHERE
+            ['datePublication' => 'DESC']           // TRI PAR datePublication DESC 
+        );
+
         return $this->render("vitrine/annonces.html.twig", [
-            'annonces' => $annonceRepository->findAll(),
+            'annonces' => $listeAnnonce,
         ]);
     }
 
