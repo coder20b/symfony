@@ -17,14 +17,14 @@
     <div>id: {{ app.user.id ?? 'non connecté'}}</div>
 </section>
 <section>
-    <h2>MA SECTION POUR AFFICHER LA LISTE DES ANNONCES</h2>
+    <h2>Liste des annonces</h2>
 
-    <div class="row">
+    <div class="row row-cols-3">
         {% for annonce in annonces %}
-            <article class="col-4">
+            <article class="p-2 pb-5">
                 <div>{{ annonce.id }}</div>
-                <h3>{{ annonce.titre }}</h3>
-                <h4>publié par: {{ annonce.user.email ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h4>
+                <h4 class="pt-2 pb-2">{{ annonce.titre }}</h4>
+                <h6>publié par: {{ annonce.user.email ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h6>
                 <div>{{ annonce.url }}</div>
                 <p>{{ annonce.description }}</p>
                 <div>{{ annonce.photo }}</div>
@@ -37,7 +37,9 @@
             </article>
         {% endfor %}
     </div>
+</section>
 
+<section>
     <img class="img-fluid" src="{{ asset('assets/img/article2.jpg') }}" alt="article2">
 </section>
 
