@@ -16,4 +16,5 @@
 ###< symfony/phpunit-bridge ###
 
 # ON VA LAISSER DE COTE LE DOSSIER migrations
-/migrations/
+/migrations/Version*
+
