@@ -11,6 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Annonce;
 use App\Form\AnnonceMemberType;
+// POUR LE READ
+use App\Repository\AnnonceRepository;
 
 /**
  * @Route("/member")
@@ -20,17 +22,19 @@ class MemberController extends AbstractController
     /**
      * @Route("/", name="member", methods={"GET","POST"})
      */
-    public function index(Request $request): Response
+    public function index(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $annonce = new Annonce();
 
         $form = $this->createForm(AnnonceMemberType::class, $annonce);
         $form->handleRequest($request);
 
+        // METHODE GETTER DU CONTROLLER POUR RECUPERER LE USER CONNECTE
+        $userConnecte = $this->getUser();                   
+        // DEBUG => AFFICHE LE CONTENU DES VARIABLES DANS LE PROFILER (BANDEAU EN BAS DE PAGE...)
+        dump($userConnecte);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $userConnecte = $this->getUser();                   // METHODE GETTER DU CONTROLLER POUR RECUPERER LE USER CONNECTE
-            // DEBUG => AFFICHE LE CONTENU DES VARIABLES DANS LE PROFILER (BANDEAU EN BAS DE PAGE...)
-            dump($userConnecte);
 
             // COMPLETER LES INFOS MANQUANTES
             $annonce->setDatePublication(new \DateTime());      // DATE D'ENREGISTREMENT DE L'ANNONCE
@@ -44,9 +48,17 @@ class MemberController extends AbstractController
             // return $this->redirectToRoute('annonce_index');
         }
 
+
+        // FILTRE POUR CLAUSE WHERE POUR SEULEMENT AFFICHER LES ANNONCES DE L'UTILISATEUR CONNECTE
+        $listeAnnonce = $annonceRepository->findBy(
+            [ "user"  => $userConnecte],            
+            [ "datePublication" => "DESC" ]
+        );
+
         return $this->render('member/index.html.twig', [
-            'annonce' => $annonce,
-            'form' => $form->createView(),
+            'annonce'   => $annonce,
+            'form'      => $form->createView(),
+            'annonces'  => $listeAnnonce,
         ]);
     }
 }
