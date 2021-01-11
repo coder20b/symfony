@@ -13,6 +13,10 @@ use App\Entity\Annonce;
 use App\Form\AnnonceMemberType;
 // POUR LE READ
 use App\Repository\AnnonceRepository;
+// POUR L'UPLOAD
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 /**
  * @Route("/member")
@@ -22,7 +26,7 @@ class MemberController extends AbstractController
     /**
      * @Route("/", name="member", methods={"GET","POST"})
      */
-    public function index(Request $request, AnnonceRepository $annonceRepository): Response
+    public function index(Request $request, AnnonceRepository $annonceRepository, SluggerInterface $slugger): Response
     {
         $annonce = new Annonce();
 
@@ -39,6 +43,32 @@ class MemberController extends AbstractController
             // COMPLETER LES INFOS MANQUANTES
             $annonce->setDatePublication(new \DateTime());      // DATE D'ENREGISTREMENT DE L'ANNONCE
             $annonce->setUser($userConnecte);                   // ON ENREGISTRE L'ANNONCE AVEC COMME AUTEUR L'UTILISATEUR CONNECTE
+
+            // UPLOAD DE PHOTO
+            // https://symfony.com/doc/current/controller/upload_file.html
+            $photoFile = $form->get('photo')->getData();
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photoFile) {
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photoFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoFile->move(
+                        $this->getParameter('photos_directory'),        // NE PAS OUBLIER DE CREER LE DOSSIER
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $annonce->setPhoto($newFilename);       // ON ENREGISTRE LE NOM DU FICHIER
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($annonce);

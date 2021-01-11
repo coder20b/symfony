@@ -17,4 +17,5 @@
 
 # ON VA LAISSER DE COTE LE DOSSIER migrations
 /migrations/Version*
+/public/uploads/*
 
