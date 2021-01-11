@@ -48,7 +48,6 @@ class MemberController extends AbstractController
             // return $this->redirectToRoute('annonce_index');
         }
 
-
         // FILTRE POUR CLAUSE WHERE POUR SEULEMENT AFFICHER LES ANNONCES DE L'UTILISATEUR CONNECTE
         $listeAnnonce = $annonceRepository->findBy(
             [ "user"  => $userConnecte],            
@@ -61,4 +60,64 @@ class MemberController extends AbstractController
             'annonces'  => $listeAnnonce,
         ]);
     }
+
+
+    /**
+     * @Route("/{id}", name="annonce_delete_member", methods={"DELETE"})
+     */
+    public function delete(Request $request, Annonce $annonce): Response
+    {
+
+        if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->request->get('_token'))) {
+
+            // COMPLETER LES VERIFICATIONS
+            // METHODE GETTER DU CONTROLLER POUR RECUPERER LE USER CONNECTE
+            $userConnecte   = $this->getUser();                   
+            $auteurAnnonce  = $annonce->getUser();
+
+            // VERIFIER QUE L'ANNONCE APPARTIENT A L'UTILISATEUR CONNECTE
+            if (($userConnecte != null) && ($auteurAnnonce != null) &&
+                    ($userConnecte->getId() == $auteurAnnonce->getId()) )
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($annonce);
+                $entityManager->flush();    
+            }
+        }
+
+        // ON REVIENT SUR L'ESPACE MEMBRE
+        return $this->redirectToRoute('member');
+    }
+
+    /**
+     * @Route("/{id}/edit", name="annonce_edit_member", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Annonce $annonce): Response
+    {
+        $form = $this->createForm(AnnonceMemberType::class, $annonce);
+        $form->handleRequest($request);
+
+        // COMPLETER LES VERIFICATIONS
+        // METHODE GETTER DU CONTROLLER POUR RECUPERER LE USER CONNECTE
+        $userConnecte   = $this->getUser();                   
+        $auteurAnnonce  = $annonce->getUser();
+        // VERIFIER QUE L'ANNONCE APPARTIENT A L'UTILISATEUR CONNECTE
+        if (($userConnecte != null) && ($auteurAnnonce != null) &&
+                ($userConnecte->getId() == $auteurAnnonce->getId()) )
+        {
+            if ($form->isSubmitted() && $form->isValid()) {
+                // ENREGISTRER LES MODIFS DANS LA DATABASE
+                $this->getDoctrine()->getManager()->flush();
+    
+                return $this->redirectToRoute('member');
+            }
+    
+        }
+
+        return $this->render('annonce/edit.html.twig', [
+            'annonce'   => $annonce,
+            'form'      => $form->createView(),
+        ]);
+    }
+
 }

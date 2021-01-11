@@ -24,7 +24,8 @@
                 <th>Photo</th>
                 <th>Categorie</th>
                 <th>DatePublication</th>
-                <th>actions</th>
+                <th>update</th>
+                <th>delete</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +39,14 @@
                 <td>{{ annonce.categorie }}</td>
                 <td>{{ annonce.datePublication ? annonce.datePublication|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('annonce_show', {'id': annonce.id}) }}">show</a>
-                    <a href="{{ path('annonce_edit', {'id': annonce.id}) }}">edit</a>
+                    <a href="{{ path('annonce_edit_member', {'id': annonce.id}) }}">edit</a>
+                </td>
+                <td>
+                    <form method="post" action="{{ path('annonce_delete_member', {'id': annonce.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ annonce.id) }}">
+                        <button class="btn">Delete</button>
+                    </form>
                 </td>
             </tr>
         {% else %}
