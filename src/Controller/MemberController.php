@@ -122,7 +122,7 @@ class MemberController extends AbstractController
     /**
      * @Route("/{id}/edit", name="annonce_edit_member", methods={"GET","POST"})
      */
-    public function edit(Request $request, Annonce $annonce): Response
+    public function edit(Request $request, Annonce $annonce, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(AnnonceMemberType::class, $annonce);
         $form->handleRequest($request);
@@ -136,6 +136,33 @@ class MemberController extends AbstractController
                 ($userConnecte->getId() == $auteurAnnonce->getId()) )
         {
             if ($form->isSubmitted() && $form->isValid()) {
+                // UPLOAD DE PHOTO
+                // https://symfony.com/doc/current/controller/upload_file.html
+                $photoFile = $form->get('photo')->getData();
+                // this condition is needed because the 'brochure' field is not required
+                // so the PDF file must be processed only when a file is uploaded
+                if ($photoFile) {
+                    $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $photoFile->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $photoFile->move(
+                            $this->getParameter('photos_directory'),        // NE PAS OUBLIER DE CREER LE DOSSIER
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+                    $annonce->setPhoto($newFilename);       // ON ENREGISTRE LE NOM DU FICHIER
+
+                }
+
                 // ENREGISTRER LES MODIFS DANS LA DATABASE
                 $this->getDoctrine()->getManager()->flush();
     

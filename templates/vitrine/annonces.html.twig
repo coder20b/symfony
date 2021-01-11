@@ -28,7 +28,7 @@
                 <h6>publié par: {{ annonce.user.email ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h6>
                 <div>{{ annonce.url }}</div>
                 <p>{{ annonce.description }}</p>
-                <div><img src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
+                <div><img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
                 <div>{{ annonce.categorie }}</div>
                 <div>{{ annonce.datePublication ? annonce.datePublication|date('Y-m-d H:i:s') : '' }}</div>
             </article>
