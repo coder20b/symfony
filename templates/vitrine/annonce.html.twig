@@ -13,7 +13,7 @@
 
 <section class="container">
     <h4>utilisateur connecté</h4>
-    <div>email: {{ app.user.email ?? 'non connecté'}}</div>
+    <div>pseudo: {{ app.user.pseudo ?? 'non connecté'}}</div>
     <div>id: {{ app.user.id ?? 'non connecté'}}</div>
 </section>
 
@@ -24,7 +24,7 @@
         <article class="p-2 pb-5 col-12 col-md-6 col-lg-4">
             <div>{{ annonce.id }}</div>
             <h4 class="pt-2 pb-2">{{ annonce.titre }}</h4>
-            <h6>publié par: {{ annonce.user.email ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h6>
+            <h6>publié par: {{ annonce.user.pseudo ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h6>
             <div>{{ annonce.url }}</div>
             <p>{{ annonce.description }}</p>
             <div><img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
