@@ -43,6 +43,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // ON ACTIVE DIRECTEMENT LE COMPTE
+            $user->setRoles(["ROLE_MEMBER"]);
+            
+            // STOCKE DANS LA BDD
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

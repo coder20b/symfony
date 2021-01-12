@@ -102,7 +102,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         $routeRedirect = "accueil";
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            $routeRedirect = "annonce_index";
+            $routeRedirect = "annonce_index";       // ADMIN ANNONCE
+        }
+        elseif (in_array('ROLE_MEMBER', $user->getRoles())) {
+            $routeRedirect = "member";       // ESPACE MEMBRE
         }
         // ... AJOUTER ROLES EN PLUS
         
