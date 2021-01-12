@@ -12,23 +12,18 @@
 {% block body %}
 
 <section class="container">
-    <h4>utilisateur connecté</h4>
-    <div>pseudo: {{ app.user.pseudo ?? 'non connecté'}}</div>
-    <div>id: {{ app.user.id ?? 'non connecté'}}</div>
-</section>
-
-<section class="container">
-    <h2>Affichage une seule annonce</h2>
 
     <div class="row ">
-        <article class="p-2 pb-5 col-12 col-md-6 col-lg-4 annonce-{{ annonce.id }}">
+        <article class="p-2 pb-5 col-12 col-md-6 annonce-{{ annonce.id }}">
             <div class="badge bg-info">{{ annonce.categorie }}</div>
             <h4 class="pt-2 pb-2"><a href="{{ path('annonce', { 'id' : annonce.id }) }}">{{ annonce.titre }}</a></h4>
             <h6 title="user id: ({{ annonce.user.id ?? 'vide' }})">publié par: {{ annonce.user.pseudo ?? '(vide)' }}</h6>
             <p>{{ annonce.description }}</p>
-            <div><img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
-            <div>publié le: {{ annonce.datePublication ? annonce.datePublication|date('d/m/Y') : '' }}</div>
+            <div class="badge badge-secondary p-2">publié le: {{ annonce.datePublication ? annonce.datePublication|date('d/m/Y') : '' }}</div>
         </article>
+        <div class="col-12 col-md-6">
+            <img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}">
+        </div>
     </div>
 </section>
 

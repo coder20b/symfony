@@ -17,12 +17,12 @@
     <div class="row">
         {% for annonce in annonces %}
             <article class="p-2 pb-5 col-12 col-md-6 col-lg-4 annonce-{{ annonce.id }}">
-                <div class="badge bg-info">{{ annonce.categorie }}</div>
+                <div><img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
                 <h4 class="pt-2 pb-2"><a href="{{ path('annonce', { 'id' : annonce.id }) }}">{{ annonce.titre }}</a></h4>
+                <div class="badge bg-info p-2">{{ annonce.categorie }}</div>
                 <h6 title="user id: ({{ annonce.user.id ?? 'vide' }})">publié par: {{ annonce.user.pseudo ?? '(vide)' }}</h6>
                 <p>{{ annonce.description }}</p>
-                <div><img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
-                <div>publié le: {{ annonce.datePublication ? annonce.datePublication|date('d/m/Y') : '' }}</div>
+                <div class="badge badge-secondary p-2">publié le: {{ annonce.datePublication ? annonce.datePublication|date('d/m/Y') : '' }}</div>
             </article>
         {% else %}
             <article>

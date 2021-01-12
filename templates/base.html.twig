@@ -23,13 +23,13 @@
                         <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">contact</a></li>
                     </ul>        
                 </nav>
-                <nav class="d-flex justify-content-center col-sm-3">
+                <nav class="d-flex justify-content-center col-sm-4">
                     <ul class="nav btn-group btn-group-sm">
                         <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ path('app_register') }}">créez votre compte</a></li>
                         <li class="nav-item"><a class="btn btn-success btn-sm" href="{{ path('app_login') }}">connexion</a></li>
                     </ul>        
                 </nav>
-                <section class="container col-sm-3">
+                <section class="container col-sm-2">
                     <div>utilisateur: pseudo: {{ app.user.pseudo ?? 'non connecté'}} (id: {{ app.user.id ?? ''}})</div>
                 </section>
             </div>
