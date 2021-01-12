@@ -15,7 +15,7 @@
         <header class="container p-2">
             <h1 class="display-4 text-center">Mes petites annonces</h1>
             <div class="row">
-                <nav class="d-flex justify-content-center col-sm-6">
+                <nav class="d-flex justify-content-center col-sm-5">
                     <ul class="nav">
                         <li class="nav-item"><a class="nav-link" href="{{ path('accueil') }}">accueil</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('annonces') }}">annonces</a></li>
@@ -29,7 +29,7 @@
                         <li class="nav-item"><a class="btn btn-success btn-sm" href="{{ path('app_login') }}">connexion</a></li>
                     </ul>        
                 </nav>
-                <section class="container col-sm-2">
+                <section class="container col-sm-3 text-center">
                     <div>utilisateur: pseudo: {{ app.user.pseudo ?? 'non connecté'}} (id: {{ app.user.id ?? ''}})</div>
                 </section>
             </div>
