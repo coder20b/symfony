@@ -12,22 +12,27 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <header class="container d-flex justify-content-between p-5">
-            <h1>Mes petites annonces</h1>
-            <nav class="d-flex justify-content-center">
-                <ul class="nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ path('accueil') }}">accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('annonces') }}">annonces</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('galerie') }}">galerie</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">contact</a></li>
-                </ul>        
-            </nav>
-            <nav class="d-flex justify-content-center">
-                <ul class="nav btn-group btn-group-sm">
-                    <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ path('app_register') }}">créez votre compte</a></li>
-                    <li class="nav-item"><a class="btn btn-success btn-sm" href="{{ path('app_login') }}">connexion</a></li>
-                </ul>        
-            </nav>
+        <header class="container p-2">
+            <h1 class="display-4 text-center">Mes petites annonces</h1>
+            <div class="row">
+                <nav class="d-flex justify-content-center col-sm-6">
+                    <ul class="nav">
+                        <li class="nav-item"><a class="nav-link" href="{{ path('accueil') }}">accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('annonces') }}">annonces</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('galerie') }}">galerie</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">contact</a></li>
+                    </ul>        
+                </nav>
+                <nav class="d-flex justify-content-center col-sm-3">
+                    <ul class="nav btn-group btn-group-sm">
+                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ path('app_register') }}">créez votre compte</a></li>
+                        <li class="nav-item"><a class="btn btn-success btn-sm" href="{{ path('app_login') }}">connexion</a></li>
+                    </ul>        
+                </nav>
+                <section class="container col-sm-3">
+                    <div>utilisateur: pseudo: {{ app.user.pseudo ?? 'non connecté'}} (id: {{ app.user.id ?? ''}})</div>
+                </section>
+            </div>
         </header>
         <main class="container pt-3 pb-5">
         {% block body %}

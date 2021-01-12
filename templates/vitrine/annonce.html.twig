@@ -20,16 +20,14 @@
 <section class="container">
     <h2>Affichage une seule annonce</h2>
 
-    <div class="row">
-        <article class="p-2 pb-5 col-12 col-md-6 col-lg-4">
-            <div>{{ annonce.id }}</div>
-            <h4 class="pt-2 pb-2">{{ annonce.titre }}</h4>
-            <h6>publié par: {{ annonce.user.pseudo ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h6>
-            <div>{{ annonce.url }}</div>
+    <div class="row ">
+        <article class="p-2 pb-5 col-12 col-md-6 col-lg-4 annonce-{{ annonce.id }}">
+            <div class="badge bg-info">{{ annonce.categorie }}</div>
+            <h4 class="pt-2 pb-2"><a href="{{ path('annonce', { 'id' : annonce.id }) }}">{{ annonce.titre }}</a></h4>
+            <h6 title="user id: ({{ annonce.user.id ?? 'vide' }})">publié par: {{ annonce.user.pseudo ?? '(vide)' }}</h6>
             <p>{{ annonce.description }}</p>
             <div><img class="img-fluid" src="{{ asset('uploads/' ~ annonce.photo ) }}"></div>
-            <div>{{ annonce.categorie }}</div>
-            <div>{{ annonce.datePublication ? annonce.datePublication|date('Y-m-d H:i:s') : '' }}</div>
+            <div>publié le: {{ annonce.datePublication ? annonce.datePublication|date('d/m/Y') : '' }}</div>
         </article>
     </div>
 </section>
