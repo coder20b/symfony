@@ -24,7 +24,7 @@
         {% for annonce in annonces %}
             <article class="p-2 pb-5 col-12 col-md-6 col-lg-4">
                 <div>{{ annonce.id }}</div>
-                <h4 class="pt-2 pb-2">{{ annonce.titre }}</h4>
+                <h4 class="pt-2 pb-2"><a href="{{ path('annonce', { 'id' : annonce.id }) }}">{{ annonce.titre }}</a></h4>
                 <h6>publié par: {{ annonce.user.email ?? '(vide)' }} ({{ annonce.user.id ?? 'vide' }})</h6>
                 <div>{{ annonce.url }}</div>
                 <p>{{ annonce.description }}</p>

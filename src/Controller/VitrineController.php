@@ -13,16 +13,34 @@ use App\Form\ContactType;
 // POUR AFFICHER LA LISTE DES ANNONCES
 use App\Repository\AnnonceRepository;
 
+// POUR UTILISER UNE SESSION
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+// POUR AFFICHER UNE SEULE ANNONCE
+use App\Entity\Annonce;
 
 // POUR UTILISER TWIG ON CREE UN HERITAGE DE CLASSE 
 // AVEC LA CLASSE PARENTE AbstractController
 class VitrineController extends AbstractController
 {
+    // ON RAJOUTE UNE PROPRIETE POUR UTILISER LES SESSIONS
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        // ON MEMORISE LA SESSION DANS LA PROPRIETE
+        $this->session = $session;
+    }
+
     /**
      * @Route("/", name="accueil")
      */    
     function accueil ()
     {
+        // ON A BESOIN D'UTILISER UNE SESSION ICI... 
+        // https://symfony.com/doc/current/session.html
+        $this->session->set('info1', 'coucou');     // ON MEMORISE UNE INFO ICI
+
         // DEV2 AJOUTE SON CODE...
         return $this->render("vitrine/index.html.twig");
     }
@@ -32,7 +50,23 @@ class VitrineController extends AbstractController
      */    
     function galerie ()
     {
-        return $this->render("vitrine/galerie.html.twig");
+        // ICI ON PEUT RETROUVER LES INFOS DE SESSION
+        $info1 = $this->session->get('info1');
+
+        return $this->render("vitrine/galerie.html.twig", [
+            // JE TRANSMETS LA VARIABLE A TWIG POUR AFFICHAGE
+           "info1"  => $info1, 
+        ]);
+    }
+
+    /**
+     * @Route("/annonce/{id}", name="annonce", methods={"GET"})
+     */
+    public function annonce(Annonce $annonce): Response
+    {
+        return $this->render('vitrine/annonce.html.twig', [
+            'annonce' => $annonce,
+        ]);
     }
 
     /**
