@@ -13,6 +13,12 @@
 
 <section class="container">
     <h2>Bienvenue</h2>
+    
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
     <img class="img-fluid" src="{{ asset('assets/img/article1.jpg') }}" alt="article1">
 </section>
 

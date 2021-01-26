@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Form\CpType;
 
 // POUR AFFICHER LA LISTE DES ANNONCES
 use App\Repository\AnnonceRepository;
@@ -35,14 +36,29 @@ class VitrineController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */    
-    function accueil ()
+    function accueil (Request $request)
     {
         // ON A BESOIN D'UTILISER UNE SESSION ICI... 
         // https://symfony.com/doc/current/session.html
         $this->session->set('info1', 'coucou');     // ON MEMORISE UNE INFO ICI
+        // ON CREE LE FORMULAIRE
+        $form = $this->createForm(CpType::class);
+        // ON RECUPERE LES INFOS ENVOYEES PAR LE FORMULAIRE
+        $form->handleRequest($request);
+
+        // ON VALIDE LES INFOS DU FORMULAIRE
+        $messageConfirmation = "merci de remplir le formulaire";
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $messageConfirmation = "message bien reçu. Nous vous répondrons rapidement.";
+            
+            // return $this->redirectToRoute('contact_index');
+        }
 
         // DEV2 AJOUTE SON CODE...
-        return $this->render("vitrine/index.html.twig");
+        return $this->render("vitrine/index.html.twig", [
+            'form'      => $form->createView(),
+        ]);
     }
 
     /**
