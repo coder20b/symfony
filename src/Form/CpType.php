@@ -16,10 +16,9 @@ class CpType extends AbstractType
             ->add('code_postal', TextType::class, [
                 'constraints' => [
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'test: {{ limit }}  donc {{ value }}',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'min' => 5,
+                        'max' => 5,
+                        'exactMessage' => 'test: {{ limit }}  donc {{ value }}',
                     ]),
                 ],
             ])
